@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <imgui-SFML.h>
 #include <imgui.h>
+#include <print>
+#include "utility/Vec2.hpp"
 
 int main()
 {
@@ -8,6 +10,12 @@ int main()
     window.setFramerateLimit(60);
     if (!ImGui::SFML::Init(window))
         return -1;
+
+    Vec2<float> vector1 = Vec2(5.1f, 5.3f);
+    Vec2<float> vector2 = Vec2(8.5f, 4.6f);
+    auto sum = vector1 + vector2;
+    std::print("The answer is {}\n", sum.x());
+
 
     sf::Clock clock;
     while (window.isOpen())
