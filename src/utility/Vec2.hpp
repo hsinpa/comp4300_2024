@@ -23,27 +23,36 @@ public:
     T y() const    { return _y; }
 
     Vec2 operator+(const Vec2& rh) {
-        return Vec2<T>(_x + rh.x(), _y + rh.y());
+        return Vec2(_x + rh.x(), _y + rh.y());
     }
 
     Vec2 operator-(const Vec2& rh) {
-        return Vec2<T>(_x - rh.x(), _y - rh.y());
+        return Vec2(_x - rh.x(), _y - rh.y());
     }
 
     Vec2 operator*(const Vec2& rh) {
-        return Vec2<T>(_x * rh.x(), _y * rh.y());
+        return Vec2(_x * rh.x(), _y * rh.y());
     }
 
     Vec2 operator/(const Vec2& rh) {
-        return Vec2<T>(_x / rh.x(), _y / rh.y());
+        return Vec2(_x / rh.x(), _y / rh.y());
+    }
+
+    Vec2 operator*(const T& rh) {
+        return Vec2(_x * rh, _y * rh);
+    }
+
+    Vec2 operator/(const T& rh) {
+        return Vec2(_x / rh, _y / rh);
     }
 
     T length() {
         return static_cast<T>(sqrt((_x * _x) + (_y * _y)));
     }
-    void scale(T factor) {
-        _x *= factor;
-        _y *= factor;
+
+    void set(T x, T y) {
+        _x = x;
+        _y = y;
     }
 };
 
