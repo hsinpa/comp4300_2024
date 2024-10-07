@@ -17,7 +17,9 @@ class Game {
     void create_player();
 
     // System
-    void sprocess_input(sf::Keyboard::Scancode& scancode, int is_press);
+    void sprocess_keyboard_input(sf::Keyboard::Scancode& scancode, int is_press);
+    void sprocess_mouse_input(sf::Event::MouseButtonEvent& mouse_event);
+    void sprocess_bullet();
     void sprocess_render();
 
 public:

@@ -37,7 +37,9 @@ add_executable(main src/main.cpp
         src/Components.hpp
         src/Game.cpp
         src/Game.h
-        src/Entities.h)
+        src/Entities.h
+        src/utility/Helper_Func.cpp
+        src/utility/Helper_Func.h)
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(main PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML)
 target_compile_features(main PRIVATE cxx_std_23)

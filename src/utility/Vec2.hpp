@@ -50,6 +50,13 @@ public:
         return static_cast<T>(sqrt((_x * _x) + (_y * _y)));
     }
 
+    void normalize() {
+        T mag = length();
+
+        _x = static_cast<T>(_x / mag);
+        _y = static_cast<T>(_y / mag);
+    }
+
     void set(T x, T y) {
         _x = x;
         _y = y;

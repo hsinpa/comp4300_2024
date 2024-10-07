@@ -5,6 +5,12 @@
 #ifndef ENTITIES_H
 #define ENTITIES_H
 
-struct PlayerComponent {};
+enum Identity {
+    Player,
+    Enemy,
+    Neutral
+};
+
+struct PlayerEntity {};
 
 #endif //ENTITIES_H

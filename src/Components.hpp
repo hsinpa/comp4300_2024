@@ -61,14 +61,11 @@ struct CLifespan {
     CLifespan(int totalLifespan): lifespan(totalLifespan), remaining(totalLifespan) {}
 };
 
-struct CInput {
-    bool up = false;
-    bool left = false;
-    bool right = false;
-    bool down = false;
-    bool shoot = false;
+struct CProjectile {
+    Identity identity = Identity::Neutral;
 
-    CInput() = default;
+    CProjectile() = default;
+    CProjectile(Identity p_identity): identity(p_identity) {}
 };
 
 

@@ -8,6 +8,7 @@
 
 #include "Entities.h"
 #include "Components.hpp"
+#include "utility/Helper_Func.h"
 
 // Init Process
 void Game::init() {
@@ -26,11 +27,15 @@ void Game::init() {
             }
 
             if (event.type == sf::Event::KeyPressed) {
-                sprocess_input(event.key.scancode, 1);
+                sprocess_keyboard_input(event.key.scancode, 1);
             }
 
             if (event.type == sf::Event::KeyReleased) {
-                sprocess_input(event.key.scancode, -1);
+                sprocess_keyboard_input(event.key.scancode, -1);
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                sprocess_mouse_input(event.mouseButton);
             }
         }
         _window->clear();
@@ -42,10 +47,13 @@ void Game::init() {
 }
 
 void Game::create_player() {
+    auto size = _window->getSize();
+
     const auto entity = _registry->create();
-    _registry->emplace<PlayerComponent>(entity);
-    _registry->emplace<CMovableComponent>(entity, 100);
-    _registry->emplace<CTransform>(entity, Vec2f(200, 400), Vec2f(0, 0), 0, 50);
+    _registry->emplace<PlayerEntity>(entity);
+    _registry->emplace<CMovableComponent>(entity, 200);
+    _registry->emplace<CTransform>(entity, Vec2f(size.x * 0.5, size.y * 0.5),
+                                   Vec2f(0, 0), 0, 50);
     _registry->emplace<CShape>(entity, 30, 12, sf::Color::Blue, sf::Color::Green, 2);
 }
 
@@ -68,8 +76,12 @@ void Game::sprocess_render() {
     }
 }
 
-void Game::sprocess_input(sf::Keyboard::Scancode& scancode, int is_press) {
-    auto player_view = _registry->view<PlayerComponent, CTransform>();
+void Game::sprocess_bullet() {
+
+}
+
+void Game::sprocess_keyboard_input(sf::Keyboard::Scancode& scancode, int is_press) {
+    auto player_view = _registry->view<PlayerEntity, CTransform>();
 
     for(auto entity: player_view) {
         auto &transform = player_view.get<CTransform>(entity);
@@ -92,6 +104,25 @@ void Game::sprocess_input(sf::Keyboard::Scancode& scancode, int is_press) {
         // Left
         if (scancode == sf::Keyboard::Scan::A) {
             transform.velocity.set(std::clamp(transform.velocity.x() - (1 * is_press), -1.f, 1.f), transform.velocity.y());
+        }
+    }
+}
+
+void Game::sprocess_mouse_input(sf::Event::MouseButtonEvent &mouse_event) {
+    if (mouse_event.button == sf::Mouse::Left) {
+        auto player_view = _registry->view<PlayerEntity, CTransform>();
+
+        for(auto player_entity: player_view) {
+            auto &player_transfrom = player_view.get<CTransform>(player_entity);
+
+            Vec2f direction = (Vec2f(mouse_event.x, mouse_event.y) - player_transfrom.pos);
+            direction.normalize();
+
+            Helper_Func::Register_Bullet(
+                    _registry,
+                    player_transfrom.pos,
+                    direction,
+                    Identity::Player);
         }
     }
 }
