@@ -19,6 +19,8 @@ void Game::init() {
     {
         sf::Time dt = deltaClock.restart();
         Game::DELTA_TIME = dt.asSeconds();
+        Game::TIME = static_cast<time_t>(time (NULL));
+
         for (auto event = sf::Event{}; _window->pollEvent(event);)
         {
             if (event.type == sf::Event::Closed)
@@ -40,6 +42,7 @@ void Game::init() {
         }
         _window->clear();
 
+        sprocess_spawn_enemy();
         sprocess_render();
 
         _window->display();
@@ -76,8 +79,23 @@ void Game::sprocess_render() {
     }
 }
 
-void Game::sprocess_bullet() {
+void Game::sprocess_spawn_enemy() {
+    auto enemy_view = _registry->view<EnemyEntity>();
 
+    if (enemy_view.size() >= Game::MAX_ENEMY_LENGTH) { return; }
+
+    sf::Vector2 screen_size = _window->getSize();
+    float r_width = Helper_Func::random_range() * screen_size.x;
+    float r_height = Helper_Func::random_range() * screen_size.y;
+
+    std::cout << "Width " << r_width << ", Height " << r_height << std::endl;
+
+//    const auto entity = _registry->create();
+//    _registry->emplace<PlayerEntity>(entity);
+//    _registry->emplace<CMovableComponent>(entity, 400);
+//    _registry->emplace<CTransform>(entity, Vec2f(size.x * 0.5, size.y * 0.5),
+//                                   Vec2f(0, 0), 0, 50);
+//    _registry->emplace<CShape>(entity, 30, 12, sf::Color::Blue, sf::Color::Green, 2);
 }
 
 void Game::sprocess_keyboard_input(sf::Keyboard::Scancode& scancode, int is_press) {

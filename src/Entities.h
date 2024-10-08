@@ -12,5 +12,6 @@ enum Identity {
 };
 
 struct PlayerEntity {};
+struct EnemyEntity {};
 
 #endif //ENTITIES_H
