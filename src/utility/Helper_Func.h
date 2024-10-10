@@ -16,7 +16,7 @@ public:
     static void Register_Bullet(std::unique_ptr<entt::registry>& entt_registry, Vec2f& position, Vec2f direction,
                                 Identity identity);
 
-    static float random_range(unsigned int max_range = 1);
+    static float random_range(float min = 0, float max = 1);
 };
 
 

@@ -15,7 +15,7 @@ class Game {
     static inline time_t TIME = 0; //In timestamp
 
     const float MAX_ENEMY_LENGTH = 10;
-    const float ENEMY_SPAWN_DELAY = 1;
+    const time_t ENEMY_SPAWN_DELAY = 1;
     time_t ENEMY_SPAWN_LAST_TIME = 0;
 
     // Creation

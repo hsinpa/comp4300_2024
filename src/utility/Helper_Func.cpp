@@ -7,6 +7,7 @@
 #include "Helper_Func.h"
 #include "../Components.hpp"
 #include "../Entities.h"
+#include <random>
 
 void Helper_Func::Register_Bullet(std::unique_ptr<entt::registry> &entt_registry, Vec2f &position, Vec2f direction,
                                   Identity identity) {
@@ -17,7 +18,9 @@ void Helper_Func::Register_Bullet(std::unique_ptr<entt::registry> &entt_registry
     entt_registry->emplace<CShape>(entity, 10, 12, sf::Color::Red, sf::Color::White, 1);
 }
 
-float Helper_Func::random_range(unsigned int max_range) {
-    auto r = ((double) rand() / (RAND_MAX)) + max_range;
-    return static_cast<float>(r);
+float Helper_Func::random_range(float min, float max) {
+    thread_local std::mt19937 gen(std::random_device{}());
+
+    std::uniform_real_distribution<float> r(min, max);
+    return r(gen);
 }

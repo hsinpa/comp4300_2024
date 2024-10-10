@@ -57,7 +57,7 @@ void Game::create_player() {
     _registry->emplace<CMovableComponent>(entity, 200);
     _registry->emplace<CTransform>(entity, Vec2f(size.x * 0.5, size.y * 0.5),
                                    Vec2f(0, 0), 0, 50);
-    _registry->emplace<CShape>(entity, 30, 12, sf::Color::Blue, sf::Color::Green, 2);
+    _registry->emplace<CShape>(entity, 30, 12, sf::Color::Blue, sf::Color::White, 2);
 }
 
 // System Process
@@ -82,20 +82,22 @@ void Game::sprocess_render() {
 void Game::sprocess_spawn_enemy() {
     auto enemy_view = _registry->view<EnemyEntity>();
 
-    if (enemy_view.size() >= Game::MAX_ENEMY_LENGTH) { return; }
+    if (enemy_view.size() >= Game::MAX_ENEMY_LENGTH ||
+        TIME < ENEMY_SPAWN_LAST_TIME) { return; }
+
+    ENEMY_SPAWN_LAST_TIME = TIME + ENEMY_SPAWN_DELAY;
 
     sf::Vector2 screen_size = _window->getSize();
     float r_width = Helper_Func::random_range() * screen_size.x;
     float r_height = Helper_Func::random_range() * screen_size.y;
 
-    std::cout << "Width " << r_width << ", Height " << r_height << std::endl;
 
-//    const auto entity = _registry->create();
-//    _registry->emplace<PlayerEntity>(entity);
-//    _registry->emplace<CMovableComponent>(entity, 400);
-//    _registry->emplace<CTransform>(entity, Vec2f(size.x * 0.5, size.y * 0.5),
-//                                   Vec2f(0, 0), 0, 50);
-//    _registry->emplace<CShape>(entity, 30, 12, sf::Color::Blue, sf::Color::Green, 2);
+    const auto entity = _registry->create();
+    _registry->emplace<EnemyEntity>(entity);
+    _registry->emplace<CMovableComponent>(entity, 300);
+    _registry->emplace<CTransform>(entity, Vec2f(r_width, r_height),
+                                   Vec2f(0, 0), 0, 50);
+    _registry->emplace<CShape>(entity, 20, 8, sf::Color::Yellow, sf::Color::White, 2);
 }
 
 void Game::sprocess_keyboard_input(sf::Keyboard::Scancode& scancode, int is_press) {
